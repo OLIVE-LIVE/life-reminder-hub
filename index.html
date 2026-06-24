@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>生活防忘清單 Life Reminder Hub</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Life Reminder Hub</p>
+        <h1>生活防忘清單</h1>
+      </div>
+      <button class="icon-button" id="openDataPanel" type="button" aria-label="資料備份">備份</button>
+    </header>
+
+    <main>
+      <section class="home-panel" id="homeView">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Today</p>
+            <h2>今日提醒</h2>
+          </div>
+          <p class="muted" id="todayText"></p>
+        </div>
+
+        <div class="chip-row" id="homeCategoryFilters" aria-label="分類篩選"></div>
+
+        <section class="quick-actions" aria-label="快速新增">
+          <button data-create="food" type="button">買了食物</button>
+          <button data-create="item" type="button">買了物品</button>
+          <button data-create="chore" type="button">完成家務</button>
+          <button data-create="restock" type="button">補貨了</button>
+          <button data-create="medicine" type="button">新增藥品</button>
+          <button data-create="emergencySupply" type="button">新增備品</button>
+          <button data-create="medicationLog" type="button">用藥紀錄</button>
+          <button data-create="dateLog" type="button">日期紀錄</button>
+        </section>
+
+        <section class="reminder-grid" id="reminderSections"></section>
+      </section>
+
+      <section class="list-panel hidden" id="listView">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Records</p>
+            <h2 id="listTitle">全部紀錄</h2>
+          </div>
+          <button class="primary-small" id="addFromList" type="button">新增</button>
+        </div>
+
+        <div class="filters">
+          <label>
+            搜尋
+            <input id="searchInput" type="search" placeholder="名稱、備註、位置" />
+          </label>
+          <label>
+            分類
+            <select id="categoryFilter"></select>
+          </label>
+          <label>
+            狀態
+            <select id="statusFilter"></select>
+          </label>
+          <label>
+            排序
+            <select id="sortSelect">
+              <option value="updatedDesc">最近更新</option>
+              <option value="dateDesc">日期新到舊</option>
+              <option value="dateAsc">日期舊到新</option>
+              <option value="nameAsc">名稱 A-Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="record-list" id="recordList"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="主選單">
+      <button class="active" data-view="home" type="button">首頁</button>
+      <button data-view="food" type="button">食品</button>
+      <button data-view="item" type="button">物品</button>
+      <button data-view="chore" type="button">家務</button>
+      <button data-view="medicine" type="button">藥品</button>
+      <button data-view="emergencySupply" type="button">備品</button>
+      <button data-view="medicationLog" type="button">用藥</button>
+      <button data-view="dateLog" type="button">日期</button>
+      <button data-view="all" type="button">全部</button>
+    </nav>
+
+    <dialog id="recordDialog" class="modal">
+      <form method="dialog" id="recordForm">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow" id="formMode">新增</p>
+            <h2 id="formTitle">新增紀錄</h2>
+          </div>
+          <button class="icon-button" value="cancel" type="button" id="closeDialog">關閉</button>
+        </div>
+
+        <div id="quickPresetArea" class="preset-area"></div>
+        <div id="formFields" class="form-fields"></div>
+
+        <menu class="modal-actions">
+          <button class="ghost" type="button" id="cancelForm">取消</button>
+          <button class="primary" type="submit">儲存</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <dialog id="dataDialog" class="modal">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Backup</p>
+          <h2>資料備份</h2>
+        </div>
+        <button class="icon-button" id="closeDataPanel" type="button">關閉</button>
+      </div>
+      <div class="data-actions">
+        <button id="exportJson" type="button">匯出 JSON 備份</button>
+        <label class="file-button">
+          匯入 JSON 備份
+          <input id="importJson" type="file" accept="application/json,.json" />
+        </label>
+        <button id="loadSampleData" type="button">載入測試資料</button>
+        <button class="danger" id="clearAllData" type="button">清除全部資料</button>
+      </div>
+      <p class="muted small">資料只存在這台裝置的瀏覽器 localStorage。匯入會覆蓋目前資料，清除前會再次確認。</p>
+    </dialog>
+
+    <template id="emptyStateTemplate">
+      <div class="empty-state">
+        <strong>目前沒有需要注意的事項</strong>
+        <span>先用上方快速新增，之後這裡會自動浮出該處理的事。</span>
+      </div>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
